@@ -71,11 +71,11 @@ class GaSource extends DataSource {
 		$this->ga->auth->setPrivateKey($this->config['auth']['privateKey']); // Path to the .p12 file
 		$auth = $this->ga->auth->getAccessToken();
 		if ($auth['http_code'] != 200) {
-			AppLog::error('Gastats Auth Failure - Bad Response');
+			AppLog::error('Gastats Auth Failure - Bad Response: ' . json_encode($auth));
 			throw new OutOfBoundsException('Unable to get googleAnalytics auth - bad response');
 		}
 		if (empty($auth['access_token'])) {
-			AppLog::error('Gastats Auth Failure - Empty Access Token');
+			AppLog::error('Gastats Auth Failure - Empty Access Token: ' . json_encode($auth));
 			throw new OutOfBoundsException('Unable to get googleAnalytics auth - empty access_token');
 		}
 		AppLog::info('Gastats Auth Token Success');
@@ -149,7 +149,6 @@ class GaSource extends DataSource {
 	 */
 	public function lookForErrors($response) {
 		if ($response['http_code'] != 200) {
-			//debug($response);
 			AppLog::error('Gastats Error: ' . json_encode($response));
 			throw new OutOfBoundsException("Error: {$response['error']['code']} {$response['error']['message']}");
 		}
