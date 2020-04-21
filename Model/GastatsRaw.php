@@ -149,7 +149,8 @@ class GastatsRaw extends GastatsAppModel {
 					$page_count = 1;
 					if ($paginate && ($num_entries == $options['max-results'])) {
 						$start_index = 1; //default
-						echo "Pulled page $page_count with $num_entries results.";
+						echo "Pulled page $page_count with $num_entries results.\n";
+						AppLog::info('Gastats results page '. $page_count .': ' . $num_entries . ' results');
 						//Loop until no more data
 						while (isset($response['rows']) && count($response['rows']) > 0) {
 							$start_index += $options['max-results'];
@@ -159,8 +160,11 @@ class GastatsRaw extends GastatsAppModel {
 							$response = $this->GoogleAnalytics->report($options);
 							if (isset($response['rows']) && is_array($response['rows'])) {
 								$num_entries =  count($response['rows']);
-								echo "Pulled page $page_count with $num_entries results.";
+								echo "Pulled page $page_count with $num_entries results.\n";
+								AppLog::info('Gastats results page '. $page_count .': ' . $num_entries . ' results');
 								$this->storeGAData($response,$stat_type,$start_date,$end_date);
+							} else if (!empty($response['totalResults'])) {
+								AppLog::info('Gastats total results: '. $response['totalResults']);
 							}
 						}
 					}
