@@ -81,6 +81,7 @@ class GastatsRaw extends GastatsAppModel {
 	*/
 	public function processGAStats($start_date=null,$end_date=null) {
 		//run defaults
+		AppLog::info('Gastats - Processing Raw Stats');
 		$this->page_path='';
 		$this->purgeStats($this->stat_type, $start_date, $end_date);
 		return $this->getGAData($this->stat_type, $start_date, $end_date, true);
@@ -164,7 +165,7 @@ class GastatsRaw extends GastatsAppModel {
 								AppLog::info('Gastats results page '. $page_count .': ' . $num_entries . ' results');
 								$this->storeGAData($response,$stat_type,$start_date,$end_date);
 							} else if (!empty($response['totalResults'])) {
-								AppLog::info('Gastats total results: '. $response['totalResults']);
+								AppLog::info('Gastats total raw results: '. $response['totalResults']);
 							}
 						}
 					}
