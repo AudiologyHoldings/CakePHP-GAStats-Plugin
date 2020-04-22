@@ -24,7 +24,7 @@ class GaSource extends DataSource {
 		App::uses('HttpSocket', 'Network/Http');
 		$this->config = $this->config($config);
 		$this->HttpSocket = new HttpSocket();
-		return parent::__construct($this->config);
+		return parent::__construct($config);
 	}
 
 	/**
